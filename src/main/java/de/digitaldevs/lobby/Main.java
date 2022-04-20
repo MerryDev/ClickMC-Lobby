@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * @author MerryChrismas
+ * @author mmmaxxx45
  * @author <a href='https://digitaldevs.de'>DigitalDevs.de</a>
  * @version 1.0.0
  */
