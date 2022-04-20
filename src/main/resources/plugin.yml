@@ -1,0 +1,12 @@
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}
+author: ${project.organization.name}
+website: ${project.organization.url}
+main: ${project.groupId}.${project.artifactId}.Main
+commands:
+  set:
+    description: Setze Lobbypunkte
+  build:
+    description: Erlaubt dir zu bauen
+
