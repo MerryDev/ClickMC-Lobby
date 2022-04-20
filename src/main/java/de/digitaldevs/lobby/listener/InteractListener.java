@@ -109,25 +109,7 @@ public class InteractListener implements Listener {
                 } else if (currentItem.getDisplayName().equals("§7≫ §cSilentLobby verlassen §7≪")) {
                     ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
                     if (cloudPlayer == null) return;
-                    cloudPlayer.getPlayerExecutor().connectToGroup("Lobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST:PLAYERS and LOWEST_PLAYERS is reversed for some reason
-
-//                    try {
-//                        ICloudService cloudService = CloudAPI.getInstance().getCloudServiceManager().getCloudServiceByName("Lobby-1");
-//                        if (cloudService != null) {
-//                            ICloudPlayer iCloudPlayer = CloudAPI.getInstance().getCloudPlayerManager().getCachedCloudPlayer(player.getUniqueId());
-//                            if (iCloudPlayer != null) {
-//                                iCloudPlayer.connect(cloudService);
-//                            } else {
-//                                player.sendMessage(Var.PREFIX + "§cBeim Übermitteln der Spieldaten ist ein Fehler aufgetreten!");
-//                            }
-//                        } else {
-//                            if (player.hasPermission(Var.SUPER_PERMISSION)) {
-//                                player.sendMessage(Var.PREFIX + "§cDer Server §6SilentLobby §ckonnte nicht in der Cloud gefunden werden!");
-//                            }
-//                        }
-//                    } catch (Exception ignored) {
-//                    }
-
+                    cloudPlayer.getPlayerExecutor().connectToGroup("silentlobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
                 }
             }
         } catch (Exception ignored) {
