@@ -109,7 +109,7 @@ public class InteractListener implements Listener {
                 } else if (currentItem.getDisplayName().equals("§7≫ §cSilentLobby verlassen §7≪")) {
                     ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
                     if (cloudPlayer == null) return;
-                    cloudPlayer.getPlayerExecutor().connectToGroup("silentlobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
+                    cloudPlayer.getPlayerExecutor().connectToGroup("Lobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
                 }
             }
         } catch (Exception ignored) {
