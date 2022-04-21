@@ -1,6 +1,7 @@
 package de.digitaldevs.lobby;
 
 import de.digitaldevs.lobby.commands.BuildCommand;
+import de.digitaldevs.lobby.commands.GmCommand;
 import de.digitaldevs.lobby.commands.SetCommand;
 import de.digitaldevs.lobby.listener.*;
 import de.digitaldevs.lobby.storage.PlayerStorage;
@@ -53,6 +54,8 @@ public class Main extends JavaPlugin {
     private void registerCommands() {
         this.getCommand("set").setExecutor(new SetCommand());
         this.getCommand("build").setExecutor(new BuildCommand());
+        this.getCommand("gm").setExecutor(new GmCommand());
+
     }
 
     private void registerListener(PluginManager pluginManager) {

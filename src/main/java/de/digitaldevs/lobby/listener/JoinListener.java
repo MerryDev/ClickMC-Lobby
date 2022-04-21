@@ -6,6 +6,9 @@ import de.digitaldevs.lobby.Var;
 import de.digitaldevs.lobby.storage.PlayerStorage;
 import de.digitaldevs.lobby.utils.HideManager;
 import de.digitaldevs.lobby.utils.LocationManager;
+import de.dytanic.cloudnet.driver.CloudNetDriver;
+import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
+import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +24,8 @@ public class JoinListener implements Listener {
 
     private static final PlayerStorage PLAYER_STORAGE = Main.getInstance().getPlayerStorage();
 
+    private static final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -34,10 +39,22 @@ public class JoinListener implements Listener {
         player.getInventory().setItem(1, new ItemBuilder(Material.BLAZE_ROD).name("§7≫ §6Spieler verstecken §7≪").build());
 
         if (player.hasPermission(Var.PERMISSION_STAFF) || player.hasPermission(Var.SUPER_PERMISSION)) {
-            player.getInventory().setItem(3, new ItemBuilder(Material.TNT).name("§7≫ §cSilentLobby verlassen §7≪").build());
             player.getInventory().setItem(5, new ItemBuilder(Material.EYE_OF_ENDER).name("§7≫ §5Schutzschild §aaktivieren §7≪").build());
             player.getInventory().setItem(7, new ItemBuilder(Material.BARRIER).name("§7≫ §cKein Gadget ausgewählt §7≪").build());
             player.getInventory().setItem(8, new ItemBuilder(Material.CHEST).name("§7≫ §3Gadgets §7≪").build());
+
+            player.getInventory().setItem(3, new ItemBuilder(Material.TNT).name("§7≫ §cSilentLobby verlassen §7≪").build());
+
+            ICloudPlayer cloudPlayer = playerManager.getOnlinePlayer(player.getUniqueId());
+            if (cloudPlayer == null) return;
+
+            String serverGroup = cloudPlayer.getConnectedService().getGroups()[0];
+           if (serverGroup.equalsIgnoreCase("Lobby")){
+               player.getInventory().setItem(3, new ItemBuilder(Material.TNT).name("§7≫ §cSilentLobby betreten §7≪").build());
+           } else {
+               player.getInventory().setItem(3, new ItemBuilder(Material.TNT).name("§7≫ §cSilentLobby verlassen §7≪").build());
+           }
+
 
         } else if (player.hasPermission(Var.PERMISSION_VIP)) {
             player.getInventory().setItem(4, new ItemBuilder(Material.EYE_OF_ENDER).name("§7≫ §5Schutzschild §aaktivieren §7≪").build());
