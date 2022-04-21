@@ -1,6 +1,7 @@
 package de.digitaldevs.lobby;
 
 import de.digitaldevs.lobby.commands.BuildCommand;
+import de.digitaldevs.lobby.commands.FlyCommand;
 import de.digitaldevs.lobby.commands.GmCommand;
 import de.digitaldevs.lobby.commands.SetCommand;
 import de.digitaldevs.lobby.listener.*;
@@ -55,6 +56,7 @@ public class Main extends JavaPlugin {
         this.getCommand("set").setExecutor(new SetCommand());
         this.getCommand("build").setExecutor(new BuildCommand());
         this.getCommand("gm").setExecutor(new GmCommand());
+        this.getCommand("fly").setExecutor(new FlyCommand());
 
     }
 

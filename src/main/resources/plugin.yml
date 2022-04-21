@@ -11,4 +11,5 @@ commands:
     description: Erlaubt dir zu bauen
   gm:
     description: Shortcut fuer /GameMode
-
+  fly:
+    description: Laesst Spieler fliegen

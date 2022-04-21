@@ -20,8 +20,10 @@ public class Var {
             NO_PERMISSION = "§cDazu hast du keine Rechte!",
             PERMISSION_IGNORE_SHIELD = "lobby.ignore.shield",
             PERMISSION_VIP = "lobby.vip",
+            PERMISSION_VIP_PLUS = "lobby.vip+",
             PERMISSION_STAFF = "lobby.staff",
             SUPER_PERMISSION = "lobby.*";
+
 
     public static final double RADIUS = 3.5D;
 
