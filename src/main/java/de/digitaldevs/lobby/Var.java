@@ -29,6 +29,8 @@ public class Var {
 
     public static final List<UUID> BUILD_PLAYERS = new ArrayList<>();
 
+    public static final List<Player> FLY_PLAYERS = new ArrayList<>();
+
     public static final HashMap<Player, BukkitRunnable> RUNNING_SHIELD = new HashMap<>();
 
 }

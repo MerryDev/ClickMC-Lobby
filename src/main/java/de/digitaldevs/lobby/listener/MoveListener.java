@@ -43,6 +43,7 @@ public class MoveListener implements Listener {
                     });
         }
 
+
     }
 
     private Vector calculateVelocity(Location first, Location second, Direction direction) {

@@ -20,12 +20,13 @@ public class FlyCommand implements CommandExecutor {
         //Checks if player has the VIP+ Permission
         if(player.hasPermission(Var.PERMISSION_VIP_PLUS)) {
             if(args.length == 0) {
-                if(!player.getAllowFlight()) {
+                if(!Var.FLY_PLAYERS.contains(player)) {
+                    Var.FLY_PLAYERS.add(player);
                     player.setAllowFlight(true);
                     player.setFlying(true);
                     player.sendMessage(Var.PREFIX + "§7Du hast den Flugmodus §aaktiviert!");
                 } else {
-                    player.setAllowFlight(false);
+                    Var.FLY_PLAYERS.remove(player);
                     player.setFlying(false);
                     player.sendMessage(Var.PREFIX + "§7Du hast den Flugmodus §cdeaktiviert!");
                 }
