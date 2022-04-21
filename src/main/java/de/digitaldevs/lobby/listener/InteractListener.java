@@ -112,6 +112,11 @@ public class InteractListener implements Listener {
                     if (cloudPlayer == null) return;
                     cloudPlayer.getPlayerExecutor().connectToGroup("Lobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
                 }
+                else if (currentItem.getDisplayName().equals("§7≫ §cSilentLobby betreten §7≪")) {
+                    ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
+                    if (cloudPlayer == null) return;
+                    cloudPlayer.getPlayerExecutor().connectToGroup("silentlobby", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
+                }
             }
         } catch (Exception ignored) {
         }
