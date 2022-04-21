@@ -44,10 +44,10 @@ public class ClickListener implements Listener {
                     JoinListener.teleportToSpawn(player);
                     success = true;
 
-                } else if (currentItem.getDisplayName().equals("§b§lBedWars")) {
+                } else if (currentItem.getDisplayName().equals("§c§lBedWars")) {
                     if (this.teleport(player, "bedwars")) success = true;
 
-                } else if (currentItem.getDisplayName().equals("§f§fGunGame")) {
+                } else if (currentItem.getDisplayName().equals("§f§lGunGame")) {
                     if (this.teleport(player, "gungame")) success = true;
 
                 } else if (currentItem.getDisplayName().equals("§6§lMLGRush")) {
@@ -57,7 +57,7 @@ public class ClickListener implements Listener {
                     if (this.teleport(player, "bowbash")) success = true;
 
                 }
-                else if (currentItem.getDisplayName().equals("§6§lFlashBlock")) {
+                else if (currentItem.getDisplayName().equals("§b§lFlashBlock")) {
                     if (this.teleport(player, "flashblock")) success = true;
 
                 }

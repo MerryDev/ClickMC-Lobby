@@ -54,7 +54,7 @@ public class InteractListener implements Listener {
                     this.setBorderItems(inventory);
                     inventory.setItem(4, new ItemBuilder(Material.DIAMOND).name("§a§lSpawn").build());
                     inventory.setItem(20, new ItemBuilder(Material.BED).name("§c§lBedWars").build());
-                    inventory.setItem(20, new ItemBuilder(Material.NETHER_STAR).name("§b§lFlashBlock").build());
+                    inventory.setItem(22, new ItemBuilder(Material.NETHER_STAR).name("§b§lFlashBlock").build());
                     inventory.setItem(24, new ItemBuilder(Material.WOOD_AXE).name("§f§lGunGame").build());
                     inventory.setItem(39, new ItemBuilder(Material.BLAZE_ROD).name("§6§lMLGRush").build());
                     inventory.setItem(41, new ItemBuilder(Material.BOW).name("§6§lBowBash").build());
