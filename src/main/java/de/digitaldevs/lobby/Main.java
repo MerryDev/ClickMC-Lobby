@@ -4,6 +4,7 @@ import de.digitaldevs.lobby.commands.BuildCommand;
 import de.digitaldevs.lobby.commands.SetCommand;
 import de.digitaldevs.lobby.listener.*;
 import de.digitaldevs.lobby.storage.PlayerStorage;
+import de.digitaldevs.lobby.utils.ScoreboardManager;
 import de.digitaldevs.lobby.utils.WorldPreparer;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class Main extends JavaPlugin {
 
     @Getter static Main instance;
     @Getter PlayerStorage playerStorage;
+    @Getter ScoreboardManager scoreboardManager;
 
     @Override
     public void onEnable() {
@@ -27,6 +29,7 @@ public class Main extends JavaPlugin {
 
         WorldPreparer.prepareWorlds();
         this.initPlayerStorage();
+        this.initScoreboardManager();
         this.registerCommands();
         this.registerListener(Bukkit.getPluginManager());
         Bukkit.getConsoleSender().sendMessage(Var.PREFIX + "Das Plugin wurde §aaktiviert§r!");
@@ -36,6 +39,10 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         instance = null;
         Bukkit.getConsoleSender().sendMessage(Var.PREFIX + "Das Plugin wurde §cdeaktiviert§r!");
+    }
+
+    private void initScoreboardManager() {
+        this.scoreboardManager = new ScoreboardManager();
     }
 
     private void initPlayerStorage() {

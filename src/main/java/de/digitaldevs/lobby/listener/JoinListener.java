@@ -65,6 +65,9 @@ public class JoinListener implements Listener {
             else hideManager.showVIPsAndTeam();
         });
 
+        // Set the scoreboard
+        Main.getInstance().getScoreboardManager().setScoreboard(player);
+
     }
 
     public static void initBasic(Player player) {
