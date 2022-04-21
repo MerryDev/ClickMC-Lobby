@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,7 @@ import java.util.List;
 
 /**
  * @author MerryChrismas
- * @author <a href='https://digitaldevs.de'>DigitalDevs.de</a>
+ * @author <a href='<a href="https://digitaldevs.de">https://digitaldevs.de</a>'>DigitalDevs.de</a>
  * @version 1.0.0
  */
 public class InteractListener implements Listener {
