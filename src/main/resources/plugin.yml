@@ -9,4 +9,6 @@ commands:
     description: Setze Lobbypunkte
   build:
     description: Erlaubt dir zu bauen
+  gm:
+    description: Shortcut fuer /GameMode
 
