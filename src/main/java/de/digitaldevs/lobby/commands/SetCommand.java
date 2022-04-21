@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class SetCommand implements CommandExecutor, TabCompleter {
 
-    private final String[] allCompletions = new String[]{"BedWars", "GunGame", "MLGRush", "BowBash", "Spawn"};
+    private final String[] allCompletions = new String[]{"BedWars", "GunGame", "MLGRush", "BowBash", "FlashBlock","Spawn"};
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -57,6 +57,10 @@ public class ClickListener implements Listener {
                     if (this.teleport(player, "bowbash")) success = true;
 
                 }
+                else if (currentItem.getDisplayName().equals("§6§lFlashBlock")) {
+                    if (this.teleport(player, "flashblock")) success = true;
+
+                }
 
                 if (success) player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 10.0F, 1.0F);
 
