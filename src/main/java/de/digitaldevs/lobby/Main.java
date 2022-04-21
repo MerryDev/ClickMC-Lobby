@@ -70,5 +70,6 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new FishListener(), this);
         pluginManager.registerEvents(new TeleportListener(), this);
         pluginManager.registerEvents(new DoubleJumpListener(), this);
+        pluginManager.registerEvents(new JumpPadListener(), this);
     }
 }
