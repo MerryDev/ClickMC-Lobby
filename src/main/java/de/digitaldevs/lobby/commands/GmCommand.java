@@ -1,15 +1,27 @@
 package de.digitaldevs.lobby.commands;
 
 import de.digitaldevs.lobby.Var;
+import de.dytanic.cloudnet.driver.CloudNetDriver;
+import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
+import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+
+
+
 public class GmCommand implements CommandExecutor {
+
+    private final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
+
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
+
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(Var.NO_PLAYER);
@@ -17,7 +29,6 @@ public class GmCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-
         if(player.hasPermission(Var.PERMISSION_STAFF)) {
             if(args.length == 1) {
             if(args[0].equals("0")) {
