@@ -19,8 +19,4 @@ public class Colorizer {
         return builder.toString();
     }
 
-    public static String bold(final String text) {
-        return ChatColor.BOLD + text;
-    }
-
 }
