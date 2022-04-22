@@ -3,6 +3,7 @@ package de.digitaldevs.lobby.listener;
 import de.digitaldevs.lobby.Var;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,13 +27,14 @@ public class DoubleJumpListener implements Listener {
     public void onFly(PlayerToggleFlightEvent event) {
         final Player player = event.getPlayer();
 
-        if(Var.FLY_PLAYERS.contains(player)) return;
+        if (Var.FLY_PLAYERS.contains(player)) return;
 
-        if(player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
+        if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
             event.setCancelled(true);
             player.setAllowFlight(false);
             player.setFlying(false);
-            player.setVelocity(player.getLocation().getDirection().multiply(2).add(new Vector(0,1.5,0)));
+            player.setVelocity(player.getLocation().getDirection().multiply(2).add(new Vector(0, 1.5, 0)));
+            player.playSound(player.getLocation(), Sound.ENDERDRAGON_WINGS, 2.5F, 1.0F);
         }
     }
 
