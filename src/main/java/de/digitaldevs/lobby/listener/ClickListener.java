@@ -17,16 +17,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * @author MerryChrismas
- * @author <a href='https://digitaldevs.de'>DigitalDevs.de</a>
+ * @author waddlespam
  * @version 1.0.0
  */
 public class ClickListener implements Listener {
-    private final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
 
+    private final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
     private final PlayerStorage playerStorage = Main.getInstance().getPlayerStorage();
 
     @EventHandler
@@ -35,110 +36,110 @@ public class ClickListener implements Listener {
         if (!Var.BUILD_PLAYERS.contains(player.getUniqueId())) event.setCancelled(true);
 
         try {
-            Inventory inventory = event.getClickedInventory();
+            final Inventory inventory = event.getClickedInventory();
+            final ItemStack item = event.getCurrentItem();
 
-            if(inventory.equals(player.getInventory())) {
-                if(event.getCurrentItem() != null) {
-                    if(event.getCurrentItem().getItemMeta().getDisplayName().equals("§7≫ §bDevserver betreten §7≪")) {
-                        ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
-                        if (cloudPlayer == null) return;
-                        cloudPlayer.getPlayerExecutor().connectToGroup("devserver", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
+            if (item == null) return;
+
+            final ItemMeta currentItem = item.getItemMeta();
+
+            if (inventory.equals(player.getInventory())) {
+                if (!currentItem.getDisplayName().equalsIgnoreCase("§7≫ §bDevserver betreten §7≪")) return;
+
+                final ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
+                if (cloudPlayer == null) return;
+
+                cloudPlayer.getPlayerExecutor().connect("devserver-1");
+
+            } else {
+                if (item.getType() == Material.STAINED_GLASS_PANE) return;
+
+                if (inventory.getName().equals("§cNavigator")) {
+                    boolean success = false;
+
+                    if (currentItem.getDisplayName().equals("§a§lSpawn")) {
+                        JoinListener.teleportToSpawn(player);
+                        success = true;
+
+                    } else if (currentItem.getDisplayName().equals("§c§lBedWars")) {
+                        if (this.teleport(player, "bedwars")) success = true;
+
+                    } else if (currentItem.getDisplayName().equals("§f§lGunGame")) {
+                        if (this.teleport(player, "gungame")) success = true;
+
+                    } else if (currentItem.getDisplayName().equals("§6§lMLGRush")) {
+                        if (this.teleport(player, "mlgrush")) success = true;
+
+                    } else if (currentItem.getDisplayName().equals("§6§lBowBash")) {
+                        if (this.teleport(player, "bowbash")) success = true;
+
+                    } else if (currentItem.getDisplayName().equals("§b§lFlashBlock")) {
+                        if (this.teleport(player, "flashblock")) success = true;
 
                     }
-                }
-            }
 
-            if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE)
-                return;
+                    if (success) player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 10.0F, 1.0F);
 
-            ItemMeta currentItem = event.getCurrentItem().getItemMeta();
+                } else if (inventory.getName().equals("§6Spieler verstecken")) {
+                    int visibleState = this.playerStorage.getStoredInt(player.getUniqueId(), "Visibility");
+                    final HideManager hideManager = new HideManager(player);
 
-            if (inventory.getName().equals("§cNavigator")) {
-                boolean success = false;
+                    if (currentItem.getDisplayName().equals("§aAlle Spieler anzeigen")) {
+                        if (visibleState != 0) {
+                            hideManager.showAll();
+                            playerStorage.storeInt(player.getUniqueId(), "Visibility", 0);
+                            player.sendMessage(Var.PREFIX + "§7Du siehst nun §aalle Spieler§7.");
+                            player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
 
-                if (currentItem.getDisplayName().equals("§a§lSpawn")) {
-                    JoinListener.teleportToSpawn(player);
-                    success = true;
+                        } else {
+                            player.sendMessage(Var.PREFIX + "§cDu siehst bereits alle Spieler!");
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
+                        }
 
-                } else if (currentItem.getDisplayName().equals("§c§lBedWars")) {
-                    if (this.teleport(player, "bedwars")) success = true;
+                    } else if (currentItem.getDisplayName().equalsIgnoreCase("§5Nur VIPs und Teammitglieder anzeigen")) {
+                        if (visibleState != 1) {
+                            hideManager.showVIPsAndTeam();
+                            playerStorage.storeInt(player.getUniqueId(), "Visibility", 1);
+                            player.sendMessage(Var.PREFIX + "§7Du siehst nun nur doch §5VIPs und Teammitglieder§7.");
+                            player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
 
-                } else if (currentItem.getDisplayName().equals("§f§lGunGame")) {
-                    if (this.teleport(player, "gungame")) success = true;
+                        } else {
+                            player.sendMessage(Var.PREFIX + "§cDu siehst bereits nur VIPs und Teammitglieder!");
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
+                        }
 
-                } else if (currentItem.getDisplayName().equals("§6§lMLGRush")) {
-                    if (this.teleport(player, "mlgrush")) success = true;
+                    } else if (currentItem.getDisplayName().equalsIgnoreCase("§cAlle Spieler verstecken")) {
+                        if (visibleState != 2) {
+                            hideManager.hideAll();
+                            playerStorage.storeInt(player.getUniqueId(), "Visibility", 2);
+                            player.sendMessage(Var.PREFIX + "§7Du siehst nun §ckeine Spieler§7.");
+                            player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
 
-                } else if (currentItem.getDisplayName().equals("§6§lBowBash")) {
-                    if (this.teleport(player, "bowbash")) success = true;
+                        } else {
+                            player.sendMessage(Var.PREFIX + "§cDu siehst keine Spieler!");
+                            player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
+                        }
 
-                }
-                else if (currentItem.getDisplayName().equals("§b§lFlashBlock")) {
-                    if (this.teleport(player, "flashblock")) success = true;
+                    }
 
-                }
+                    player.closeInventory();
 
-                if (success) player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 10.0F, 1.0F);
-
-            } else if (inventory.getName().equals("§6Spieler verstecken")) {
-                int visibleState = this.playerStorage.getStoredInt(player.getUniqueId(), "Visibility");
-                HideManager hideManager = new HideManager(player);
-
-                if (currentItem.getDisplayName().equals("§aAlle Spieler anzeigen")) {
-                    if (visibleState != 0) {
-                        hideManager.showAll();
-                        playerStorage.storeInt(player.getUniqueId(), "Visibility", 0);
-                        player.sendMessage(Var.PREFIX + "§7Du siehst nun §aalle Spieler§7.");
-                        player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
+                } else if (inventory.getName().equals("§3Gadgets")) {
+                    if (currentItem.getDisplayName().equals("§cAktuelles Gadget entfernen")) {
+                        player.getInventory().clear();
+                        JoinListener.getItems(player);
+                        player.playSound(player.getLocation(), Sound.ITEM_BREAK, 7.0F, 1.0F);
+                        player.sendMessage(Var.PREFIX + "§7Du hast dein aktuelles Gadget §centfernt§7.");
 
                     } else {
-                        player.sendMessage(Var.PREFIX + "§cDu siehst bereits alle Spieler!");
-                        player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
-                    }
-
-                } else if (currentItem.getDisplayName().equalsIgnoreCase("§5Nur VIPs und Teammitglieder anzeigen")) {
-                    if (visibleState != 1) {
-                        hideManager.showVIPsAndTeam();
-                        playerStorage.storeInt(player.getUniqueId(), "Visibility", 1);
-                        player.sendMessage(Var.PREFIX + "§7Du siehst nun nur doch §5VIPs und Teammitglieder§7.");
-                        player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
-
-                    } else {
-                        player.sendMessage(Var.PREFIX + "§cDu siehst bereits nur VIPs und Teammitglieder!");
-                        player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
-                    }
-
-                } else if (currentItem.getDisplayName().equalsIgnoreCase("§cAlle Spieler verstecken")) {
-                    if (visibleState != 2) {
-                        hideManager.hideAll();
-                        playerStorage.storeInt(player.getUniqueId(), "Visibility", 2);
-                        player.sendMessage(Var.PREFIX + "§7Du siehst nun §ckeine Spieler§7.");
-                        player.playSound(player.getLocation(), Sound.NOTE_PLING, 10.0F, 3.0F);
-
-                    } else {
-                        player.sendMessage(Var.PREFIX + "§cDu siehst keine Spieler!");
-                        player.playSound(player.getLocation(), Sound.NOTE_BASS, 10.0F, 1.5F);
+                        if (player.hasPermission(Var.PERMISSION_STAFF) || player.hasPermission(Var.PERMISSION_VIP))
+                            player.getInventory().setItem(7, event.getCurrentItem());
+                        else player.getInventory().setItem(8, event.getCurrentItem());
+                        player.playSound(player.getLocation(), Sound.CHICKEN_EGG_POP, 7.0F, 1.0F);
+                        player.sendMessage(Var.PREFIX + "§7Du hast das Gadget §r" + currentItem.getDisplayName() + " §7ausgewählt.");
                     }
 
                 }
-
-                player.closeInventory();
-
-            } else if (inventory.getName().equals("§3Gadgets")) {
-                if (currentItem.getDisplayName().equals("§cAktuelles Gadget entfernen")) {
-                    player.getInventory().clear();
-                    JoinListener.getItems(player);
-                    player.playSound(player.getLocation(), Sound.ITEM_BREAK, 7.0F, 1.0F);
-                    player.sendMessage(Var.PREFIX + "§7Du hast dein aktuelles Gadget §centfernt§7.");
-
-                } else {
-                    if (player.hasPermission(Var.PERMISSION_STAFF) || player.hasPermission(Var.PERMISSION_VIP))
-                        player.getInventory().setItem(7, event.getCurrentItem());
-                    else player.getInventory().setItem(8, event.getCurrentItem());
-                    player.playSound(player.getLocation(), Sound.CHICKEN_EGG_POP, 7.0F, 1.0F);
-                    player.sendMessage(Var.PREFIX + "§7Du hast das Gadget §r" + currentItem.getDisplayName() + " §7ausgewählt.");
-                }
-
             }
 
         } catch (Exception ignored) {
