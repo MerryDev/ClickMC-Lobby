@@ -44,7 +44,7 @@ public class JoinListener implements Listener {
             player.getInventory().setItem(8, new ItemBuilder(Material.CHEST).name("§7≫ §3Gadgets §7≪").build());
 
             if (player.hasPermission(Var.PERMISSION_DEV) || player.hasPermission(Var.SUPER_PERMISSION)) {
-                player.getInventory().setItem(22, new ItemBuilder(Material.CHEST).name("§7≫ §bDevserver betreten §7≪").build());
+                player.getInventory().setItem(22, new ItemBuilder(Material.DIAMOND).name("§7≫ §bDevserver betreten §7≪").build());
             }
 
             // Set item for SilentLobby dynamically
