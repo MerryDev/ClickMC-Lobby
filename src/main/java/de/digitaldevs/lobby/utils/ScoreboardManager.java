@@ -4,7 +4,6 @@ import de.digitaldevs.core.scoreboard.PersonalScoreboard;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.permission.IPermissionManagement;
 import de.dytanic.cloudnet.driver.permission.IPermissionUser;
-import de.dytanic.cloudnet.driver.permission.PermissionUserGroupInfo;
 import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
 import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import org.bukkit.ChatColor;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ScoreboardManager {
@@ -24,7 +22,7 @@ public class ScoreboardManager {
         if (cloudPlayer == null) return;
 
         PersonalScoreboard scoreboard = new PersonalScoreboard(
-                (target) -> Colorizer.bold(Colorizer.colorizeAlternately("ClickMC", ChatColor.DARK_AQUA, ChatColor.AQUA)),
+                (target) -> Colorizer.colorizeAlternately("ClickMC", ChatColor.DARK_AQUA, ChatColor.AQUA),
                 (target) -> Arrays.asList(
                         "§7§m------------",
                         "",
