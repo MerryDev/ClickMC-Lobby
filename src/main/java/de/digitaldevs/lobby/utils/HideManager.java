@@ -20,6 +20,7 @@ public class HideManager {
     }
 
     public void showVIPsAndTeam() {
+        this.showAll();
         Bukkit.getOnlinePlayers().forEach(target -> {
             if (!(target.hasPermission(Var.PERMISSION_VIP) || target.hasPermission(Var.PERMISSION_STAFF) || target.hasPermission(Var.SUPER_PERMISSION)))
                 this.player.hidePlayer(target);
