@@ -35,6 +35,9 @@ public class JoinListener implements Listener {
     }
 
     public static void getItems(Player player) {
+        final ICloudPlayer cloudPlayer = playerManager.getOnlinePlayer(player.getUniqueId());
+        if (cloudPlayer == null) return;
+
         player.getInventory().setItem(0, new ItemBuilder(Material.COMPASS).name("§7≫ §cNavigator §7≪").build());
         player.getInventory().setItem(1, new ItemBuilder(Material.BLAZE_ROD).name("§7≫ §6Spieler verstecken §7≪").build());
 
@@ -43,14 +46,12 @@ public class JoinListener implements Listener {
             player.getInventory().setItem(7, new ItemBuilder(Material.BARRIER).name("§7≫ §cKein Gadget ausgewählt §7≪").build());
             player.getInventory().setItem(8, new ItemBuilder(Material.CHEST).name("§7≫ §3Gadgets §7≪").build());
 
-            if (player.hasPermission(Var.PERMISSION_DEV) || player.hasPermission(Var.SUPER_PERMISSION)) {
-                player.getInventory().setItem(22, new ItemBuilder(Material.DIAMOND).name("§7≫ §bDevserver betreten §7≪").build());
+            if(!cloudPlayer.getConnectedService().getServerName().equalsIgnoreCase("devserver-1")) {
+                if (player.hasPermission(Var.PERMISSION_DEV) || player.hasPermission(Var.SUPER_PERMISSION)) {
+                    player.getInventory().setItem(22, new ItemBuilder(Material.DIAMOND).name("§7≫ §bDevserver betreten §7≪").build());
+                }
             }
-
             // Set item for SilentLobby dynamically
-            final ICloudPlayer cloudPlayer = playerManager.getOnlinePlayer(player.getUniqueId());
-            if (cloudPlayer == null) return;
-
             final String serverGroup = cloudPlayer.getConnectedService().getGroups()[0];
             if (serverGroup.equalsIgnoreCase("Lobby")) {
                 player.getInventory().setItem(3, new ItemBuilder(Material.TNT).name("§7≫ §cSilentLobby betreten §7≪").build());
