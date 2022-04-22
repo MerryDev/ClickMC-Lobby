@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -20,10 +21,8 @@ public class DoubleJumpListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-
         player.setAllowFlight(true);
-        cooldown.put(player, false);
-
+        player.setFlying(false);
     }
 
     @EventHandler
@@ -34,28 +33,20 @@ public class DoubleJumpListener implements Listener {
 
         if(player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
             event.setCancelled(true);
-            if(cooldown.get(player)) return;
-            player.setVelocity(player.getLocation().getDirection().setY(1));
-            cooldown.put(player, true);
+            player.setAllowFlight(false);
+            player.setFlying(false);
+            player.setVelocity(player.getLocation().getDirection().multiply(2).add(new Vector(0,1.5,0)));
         }
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if(Var.FLY_PLAYERS.contains(player)) return;
+        if (Var.FLY_PLAYERS.contains(player)) return;
 
-        if(player.getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
-            cooldown.put(player, false);
-        }
-    }
-
-    @EventHandler
-    public void onGamemodeChange(PlayerGameModeChangeEvent event) {
-        final Player player = event.getPlayer();
-        if(Var.FLY_PLAYERS.contains(player)) return;
-        if(event.getNewGameMode() == GameMode.SURVIVAL || event.getNewGameMode() == GameMode.ADVENTURE) {
+        if (player.getLocation().add(0, -1, 0).getBlock().getType() != Material.AIR) {
             player.setAllowFlight(true);
+            player.setFlying(false);
         }
     }
 }
