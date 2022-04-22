@@ -22,6 +22,7 @@ public class Var {
             PERMISSION_VIP = "lobby.vip",
             PERMISSION_VIP_PLUS = "lobby.vip+",
             PERMISSION_STAFF = "lobby.staff",
+            PERMISSION_DEV = "lobby.staff.dev",
             SUPER_PERMISSION = "lobby.*";
 
 

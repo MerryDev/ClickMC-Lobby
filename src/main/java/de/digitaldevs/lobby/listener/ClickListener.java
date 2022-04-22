@@ -5,6 +5,10 @@ import de.digitaldevs.lobby.Var;
 import de.digitaldevs.lobby.storage.PlayerStorage;
 import de.digitaldevs.lobby.utils.HideManager;
 import de.digitaldevs.lobby.utils.LocationManager;
+import de.dytanic.cloudnet.driver.CloudNetDriver;
+import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
+import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
+import de.dytanic.cloudnet.ext.bridge.player.executor.ServerSelectorType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -21,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @version 1.0.0
  */
 public class ClickListener implements Listener {
+    private final IPlayerManager playerManager = CloudNetDriver.getInstance().getServicesRegistry().getFirstService(IPlayerManager.class);
 
     private final PlayerStorage playerStorage = Main.getInstance().getPlayerStorage();
 
@@ -31,6 +36,17 @@ public class ClickListener implements Listener {
 
         try {
             Inventory inventory = event.getClickedInventory();
+
+            if(inventory.equals(player.getInventory())) {
+                if(event.getCurrentItem() != null) {
+                    if(event.getCurrentItem().getItemMeta().getDisplayName().equals("§7≫ §bDevserver betreten §7≪")) {
+                        ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
+                        if (cloudPlayer == null) return;
+                        cloudPlayer.getPlayerExecutor().connectToGroup("devserver", ServerSelectorType.HIGHEST_PLAYERS); // HIGHEST_PLAYERS and LOWEST_PLAYERS is reversed for some reason
+
+                    }
+                }
+            }
 
             if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE)
                 return;

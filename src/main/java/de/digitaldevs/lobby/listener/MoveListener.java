@@ -38,8 +38,9 @@ public class MoveListener implements Listener {
                     .filter(target -> player != target)
                     .filter(target -> !target.hasPermission(Var.PERMISSION_IGNORE_SHIELD))
                     .forEachOrdered(target -> {
-                        Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
-                        target.setVelocity(vector);
+                           Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
+                            target.setVelocity(vector);
+
                     });
         }
 
