@@ -6,17 +6,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-
 public class DoubleJumpListener implements Listener {
 
-    HashMap<Player, Boolean> cooldown = new HashMap<>();
+    //TODO: Add cosmetics
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {

@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 
 public class JumpPadListener implements Listener {
 
+    //TODO: Add cosmetics
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
