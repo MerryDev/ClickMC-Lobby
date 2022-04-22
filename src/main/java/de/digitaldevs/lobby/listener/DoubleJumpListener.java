@@ -14,8 +14,6 @@ import org.bukkit.util.Vector;
 
 public class DoubleJumpListener implements Listener {
 
-    //TODO: Add cosmetics
-
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
