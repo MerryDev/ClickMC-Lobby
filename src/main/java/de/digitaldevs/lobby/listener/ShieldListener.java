@@ -28,14 +28,15 @@ public class ShieldListener implements Listener {
         final Player player = event.getPlayer();
 
         for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
-            if (!(entity instanceof Player)) return;
+            if (!(entity instanceof Player)) continue;
             final Player target = (Player) entity;
 
-            if (player == target) return;
+            if (player == target) continue;
+            if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) continue;
 
             // Check for players while the player with the activated shield is moving
             if (this.shieldUsers.containsKey(player)) {
-                final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
+                final Vector vector = this.calculateVelocity(target.getLocation(), player.getLocation(), Direction.TARGET);
                 target.setVelocity(vector);
 
             } else {  // Check for players with an activated shield while a player without the bypass permission is moving
