@@ -25,9 +25,6 @@ public class Var {
             PERMISSION_DEV = "lobby.staff.dev",
             SUPER_PERMISSION = "lobby.*";
 
-
-    public static final double RADIUS = 3.5D;
-
     public static final List<UUID> BUILD_PLAYERS = new ArrayList<>();
 
     public static final List<Player> FLY_PLAYERS = new ArrayList<>();

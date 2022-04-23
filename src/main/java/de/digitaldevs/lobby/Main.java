@@ -65,11 +65,11 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new ProtectionListener(), this);
         pluginManager.registerEvents(new InteractListener(), this);
         pluginManager.registerEvents(new ClickListener(), this);
-        pluginManager.registerEvents(new MoveListener(), this);
         pluginManager.registerEvents(new QuitListener(), this);
         pluginManager.registerEvents(new FishListener(), this);
         pluginManager.registerEvents(new TeleportListener(), this);
         pluginManager.registerEvents(new DoubleJumpListener(), this);
         pluginManager.registerEvents(new JumpPadListener(), this);
+        pluginManager.registerEvents(new ShieldListener(), this);
     }
 }

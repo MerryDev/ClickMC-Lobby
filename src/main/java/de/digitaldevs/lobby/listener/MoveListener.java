@@ -23,25 +23,29 @@ public class MoveListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        Var.RUNNING_SHIELD.keySet().stream()
-                .filter(target -> player != target)
-                .filter(target -> player.getLocation().distance(target.getLocation()) <= RADIUS)
-                .filter(target -> !target.hasPermission(Var.PERMISSION_IGNORE_SHIELD))
-                .map(target -> this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.PLAYER))
-                .forEachOrdered(player::setVelocity);
+        for (Player target1 : Var.RUNNING_SHIELD.keySet()) {
+            if (player != target1) {
+                if (player.getLocation().distance(target1.getLocation()) <= RADIUS) {
+                    if (!target1.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) {
+                        Vector calculateVelocity = this.calculateVelocity(player.getLocation(), target1.getLocation(), Direction.PLAYER);
+                        player.setVelocity(calculateVelocity);
+                    }
+                }
+            }
+        }
 
-        if (Var.RUNNING_SHIELD.containsKey(player)) {
-            player.getNearbyEntities(RADIUS, RADIUS, RADIUS)
-                    .stream()
-                    .filter(entity -> entity instanceof Player)
-                    .map(entity -> (Player) entity)
-                    .filter(target -> player != target)
-                    .filter(target -> !target.hasPermission(Var.PERMISSION_IGNORE_SHIELD))
-                    .forEachOrdered(target -> {
-                           Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
+        if (!Var.RUNNING_SHIELD.containsKey(player)) {
+            for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
+                if (entity instanceof Player) {
+                    Player target = (Player) entity;
+                    if (player != target) {
+                        if (!target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) {
+                            Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
                             target.setVelocity(vector);
-
-                    });
+                        }
+                    }
+                }
+            }
         }
 
 
