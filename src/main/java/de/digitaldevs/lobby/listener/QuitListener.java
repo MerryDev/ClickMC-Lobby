@@ -1,6 +1,7 @@
 package de.digitaldevs.lobby.listener;
 
 import de.digitaldevs.lobby.Var;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -14,10 +15,15 @@ public class QuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        final Player player = event.getPlayer();
+
         event.setQuitMessage(null);
-        if (Var.RUNNING_SHIELD.containsKey(event.getPlayer())) {
-            Var.RUNNING_SHIELD.get(event.getPlayer()).cancel();
-            Var.RUNNING_SHIELD.remove(event.getPlayer());
+
+        Var.BUILD_PLAYERS.remove(player.getUniqueId());
+
+        if (Var.RUNNING_SHIELD.containsKey(player)) {
+            Var.RUNNING_SHIELD.get(player).cancel();
+            Var.RUNNING_SHIELD.remove(player);
         }
     }
 
