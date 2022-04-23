@@ -27,23 +27,28 @@ public class ShieldListener implements Listener {
     public void onMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer();
 
-        for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
-            if (!(entity instanceof Player)) continue;
-            final Player target = (Player) entity;
+        // Check for all players that don't have a bypass permission
+        for (Player target : this.shieldUsers.keySet()) {
+            if (player == target) break;
+            if (player.getLocation().distance(target.getLocation()) > RADIUS) break;
+            if (player.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
 
-            if (player == target) continue;
-            if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) continue;
-
-            // Check for players while the player with the activated shield is moving
-            if (this.shieldUsers.containsKey(player)) {
-                final Vector vector = this.calculateVelocity(target.getLocation(), player.getLocation(), Direction.TARGET);
-                target.setVelocity(vector);
-
-            } else {  // Check for players with an activated shield while a player without the bypass permission is moving
-                final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.PLAYER);
-                player.setVelocity(vector);
-            }
+            final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.PLAYER);
+            player.setVelocity(vector);
         }
+
+        // Check for everyone who has not the bypass permission weather he is moving nearby an player with an activated shield
+        for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
+            if (!(entity instanceof Player)) break;
+            Player target = (Player) entity;
+
+            if (!this.shieldUsers.containsKey(target)) break;
+            if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
+
+            final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
+            target.setVelocity(vector);
+        }
+
     }
 
     private Vector calculateVelocity(@NotNull final Location first, @NotNull final Location second, @NotNull final Direction direction) {
@@ -56,19 +61,18 @@ public class ShieldListener implements Listener {
         final double bz = second.getZ();
 
         double x, y, z;
-
-        if (direction == Direction.TARGET) { // The Player with the activated shield is moving -> Other players should be thrown away
+        if (direction == Direction.PLAYER) {
             x = ax - bx;
             y = ay - by;
             z = az - bz;
 
-        } else { // The Player without the permission in moving -> he should be thrown away
+        } else {
             x = bx - ax;
             y = by - ay;
             z = bz - az;
         }
 
-        return new Vector(x, y, z).normalize().setY(0.1D).multiply(1);
+        return new Vector(x, y, z).normalize().multiply(2.0D).setY(0.3D);
     }
 
 }
