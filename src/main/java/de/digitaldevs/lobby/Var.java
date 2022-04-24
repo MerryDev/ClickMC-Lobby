@@ -20,6 +20,7 @@ public class Var {
             NO_PERMISSION = "§cDazu hast du keine Rechte!",
             PERMISSION_IGNORE_SHIELD = "lobby.ignore.shield",
             PERMISSION_VIP = "lobby.vip",
+            PERMISSION_YT = "lobby.yt",
             PERMISSION_VIP_PLUS = "lobby.vip+",
             PERMISSION_STAFF = "lobby.staff",
             PERMISSION_DEV = "lobby.staff.dev",
