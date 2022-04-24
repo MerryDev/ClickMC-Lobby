@@ -3,6 +3,7 @@ package de.digitaldevs.lobby.listener;
 import de.digitaldevs.lobby.Var;
 import de.digitaldevs.lobby.utils.Direction;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,14 +27,32 @@ public class ShieldListener implements Listener {
     public void onMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer(); // The player which is moving
 
+        // The player without an active shield is moving
         for (Player target : this.shieldUsers.keySet()) {
             if (player == target) break;
             if (player.getLocation().distance(target.getLocation()) > RADIUS) break;
 
+            if (player.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
+
             final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.PLAYER);
             player.setVelocity(vector);
-
         }
+
+        // Check if the moving player has an active shield
+        if (!this.shieldUsers.containsKey(player)) return;
+
+        // A player with an active shield is moving
+        for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
+            if (!(entity instanceof Player)) break;
+            Player target = (Player) entity;
+
+            if (player == target) continue;
+            if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
+
+            final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
+            target.setVelocity(vector);
+        }
+
     }
 
     private Vector calculateVelocity(@NotNull final Location first, @NotNull final Location second, @NotNull final Direction direction) {
