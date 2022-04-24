@@ -9,6 +9,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author MerryChrismas
  * @author <a href='https://digitaldevs.de'>DigitalDevs.de</a>
@@ -27,6 +30,7 @@ public class ShieldManager {
         player.getInventory().setItem(5, new ItemBuilder(Material.EYE_OF_ENDER).name("§7≫ §5Schutzschild §cdeaktivieren §7≪").build());
         player.sendMessage(Var.PREFIX + "§7Du hast das §5Schutzschild §aaktiviert§7.");
         player.playSound(player.getLocation(), Sound.PORTAL_TRIGGER, 8.0F, 1.0F);
+        startTimer(player);
     }
 
     public static void deactivate(Player player) {
@@ -35,6 +39,18 @@ public class ShieldManager {
         player.getInventory().setItem(5, new ItemBuilder(Material.EYE_OF_ENDER).name("§7≫ §5Schutzschild §aaktivieren §7≪").build());
         player.sendMessage(Var.PREFIX + "§7Du hast das §5Schutzschild §cdeaktiviert§7.");
         player.playSound(player.getLocation(), Sound.CREEPER_HISS, 15.0F, 1.0F);
+    }
+
+    public static void startTimer(Player player) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                deactivate(player);
+                player.sendMessage(Var.PREFIX + "§cAufgrund von Inaktivität wurde dein §5Schutzschild §cdeaktiviert!");
+            }
+        }, 5*60*1000);
+
     }
 
 }
