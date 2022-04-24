@@ -1,5 +1,6 @@
 package de.digitaldevs.lobby.listener;
 
+import lombok.SneakyThrows;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.FishHook;
@@ -16,6 +17,7 @@ import org.bukkit.util.Vector;
  */
 public class FishListener implements Listener {
 
+    @SneakyThrows
     @EventHandler
     public void onFish(PlayerFishEvent event) {
         Player player = event.getPlayer();
