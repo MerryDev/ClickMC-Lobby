@@ -1,7 +1,6 @@
 package de.digitaldevs.lobby.listener;
 
 import de.digitaldevs.lobby.Var;
-import de.digitaldevs.lobby.utils.Direction;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -77,6 +76,10 @@ public class ShieldListener implements Listener {
         }
 
         return new Vector(x, y, z).normalize().multiply(2.0D).setY(0.3D);
+    }
+
+    private enum Direction {
+        TARGET, PLAYER
     }
 
 }
