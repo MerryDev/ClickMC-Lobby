@@ -25,9 +25,8 @@ public class ShieldListener implements Listener {
 
     @EventHandler
     public void onMove(final PlayerMoveEvent event) {
-        final Player player = event.getPlayer();
+        final Player player = event.getPlayer(); // The player wich is moving
 
-        // Check for all players that don't have a bypass permission
         for (Player target : this.shieldUsers.keySet()) {
             if (player == target) break;
             if (player.getLocation().distance(target.getLocation()) > RADIUS) break;
@@ -37,13 +36,16 @@ public class ShieldListener implements Listener {
             player.setVelocity(vector);
         }
 
-        // Check for everyone who has not the bypass permission weather he is moving nearby an player with an activated shield
-        for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {
-            if (!(entity instanceof Player)) break;
-            Player target = (Player) entity;
+        // A player without an active shield is moving
+        for (Entity entity : player.getNearbyEntities(RADIUS, RADIUS, RADIUS)) {  // Loop through all entities in radius (5|5|5)
+            if (!(entity instanceof Player)) break; // If the entity is not a player the shield should not work
+            Player target = (Player) entity; // Then we know the entity is a player and not an e.g. cow
 
-            if (!this.shieldUsers.containsKey(target)) break;
-            if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
+            if (player == target) continue; // When the moving player is the player in the 5-block radius, we don't care
+
+            if (!this.shieldUsers.containsKey(target))
+                break; // When the entity in the 5-block radius is not a player with an activated shield we don't care
+            if (player.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break; //
 
             final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
             player.setVelocity(vector);
