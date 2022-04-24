@@ -130,11 +130,12 @@ public class JoinListener implements Listener {
 
         if (user == null) return "Unknown";
 
-        final AtomicReference<String> groupName = new AtomicReference<>("§7Spieler");
+        final AtomicReference<String> groupName = new AtomicReference<>("Spieler");
         user.getGroups().forEach(group -> {
             switch (group.getGroup()) {
                 case "Admin": groupName.set("Admin"); break;
-                case "Builder": groupName.set("§eBuilder"); break;
+                case "Developer": groupName.set("Developer"); break;
+                case "Builder": groupName.set("Builder"); break;
             }
         });
         return groupName.get();

@@ -44,12 +44,20 @@ public class ClickListener implements Listener {
             final ItemMeta currentItem = item.getItemMeta();
 
             if (inventory.equals(player.getInventory())) {
-                if (!currentItem.getDisplayName().equalsIgnoreCase("§7≫ §bDevserver betreten §7≪")) return;
-
                 final ICloudPlayer cloudPlayer = this.playerManager.getOnlinePlayer(player.getUniqueId());
                 if (cloudPlayer == null) return;
 
-                cloudPlayer.getPlayerExecutor().connect("devserver-1");
+                if (currentItem.getDisplayName().equalsIgnoreCase("§7≫ §bDevserver betreten §7≪")) {
+                    cloudPlayer.getPlayerExecutor().connect("devserver-1");
+                    player.sendMessage(Var.PREFIX + "§7Du wirst nun zum §eDeveloper-Netzwerk §7verbunden...");
+                } else if (currentItem.getDisplayName().equalsIgnoreCase("§7≫ §aBauServer betreten §7≪")) {
+                    cloudPlayer.getPlayerExecutor().connect("BauServer-1");
+                    player.sendMessage(Var.PREFIX + "§7Du wirst nun zum §eBauserver §7verbunden...");
+                }
+
+
+
+
 
             } else {
                 if (item.getType() == Material.STAINED_GLASS_PANE) return;
