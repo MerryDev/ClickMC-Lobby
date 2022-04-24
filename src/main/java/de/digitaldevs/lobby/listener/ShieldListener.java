@@ -34,7 +34,7 @@ public class ShieldListener implements Listener {
             if (player.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
 
             final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.PLAYER);
-            target.setVelocity(vector);
+            player.setVelocity(vector);
         }
 
         // Check for everyone who has not the bypass permission weather he is moving nearby an player with an activated shield
@@ -46,7 +46,7 @@ public class ShieldListener implements Listener {
             if (target.hasPermission(Var.PERMISSION_IGNORE_SHIELD)) break;
 
             final Vector vector = this.calculateVelocity(player.getLocation(), target.getLocation(), Direction.TARGET);
-            target.setVelocity(vector);
+            player.setVelocity(vector);
         }
 
     }
