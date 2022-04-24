@@ -70,7 +70,6 @@ public class JoinListener implements Listener {
             }
 
 
-
         } else if (player.hasPermission(Var.PERMISSION_YT)) {
             player.getInventory().setItem(4, new ItemBuilder(Material.EYE_OF_ENDER).name("§7≫ §5Schutzschild §aaktivieren §7≪").build());
             player.getInventory().setItem(7, new ItemBuilder(Material.BARRIER).name("§7≫ §cKein Gadget ausgewählt §7≪").build());
