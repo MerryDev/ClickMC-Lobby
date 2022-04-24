@@ -25,7 +25,7 @@ public class ShieldListener implements Listener {
 
     @EventHandler
     public void onMove(final PlayerMoveEvent event) {
-        final Player player = event.getPlayer(); // The player wich is moving
+        final Player player = event.getPlayer(); // The player which is moving
 
         // The player without an active shield is moving
         for (Player target : this.shieldUsers.keySet()) {
